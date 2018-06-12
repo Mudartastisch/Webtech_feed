@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema
+    version="1.0"
+    elementFormDefault="qualified"
+    targetNamespace="http://webis.de/feedreader/model/atom"
+    xmlns:tns="http://webis.de/feedreader/model/atom"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- For reference, have a look at the specification:
+         https://tools.ietf.org/html/rfc4287 -->
+
+    <!-- Main root element is `feed` -->
+    <xs:element name="feed">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:string"/>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element name="updated" type="xs:dateTime"/>
+                <xs:element name="author" type="tns:person"/>
+                <xs:element name="subtitle" type="xs:string" minOccurs="0"/>
+                <xs:element ref="tns:entry" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Alternative root element `entry` for a feed containg a single entry -->
+    <xs:element name="entry">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:string"/>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element name="updated" type="xs:dateTime"/>
+                <xs:element name="author" type="tns:person"/>
+                <xs:element name="link" type="tns:link" minOccurs="0"/>
+                <xs:element name="summary" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Link construct to reference from an entry to a web resource
+         See: https://tools.ietf.org/html/rfc4287#section-4.2.7 -->
+    <xs:complexType name="link">
+        <xs:attribute name="href" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Person construct to describe a person, corporation or similar entity.
+         See: https://tools.ietf.org/html/rfc4287#section-3.2 -->
+    <xs:complexType name="person">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
